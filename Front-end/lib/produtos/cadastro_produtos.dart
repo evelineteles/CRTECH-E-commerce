@@ -5,10 +5,11 @@ import 'dart:convert';
 class Produto {
   int? id;
   String? nome;
-  String? descricao;
   double? preco;
-  int? quantidade;
+  String? descricao;
   String? imagem;
+  String? categoria;
+  int? quantidade;
 }
 
 void main() {
@@ -40,191 +41,44 @@ class PaginaCadastroProdutos extends StatefulWidget {
   }
 }
 
-Future<void> cadastrarProdutoGamer(String? nome, String? descricao,
-    double? preco, int? quantidade, String? imagem, context) async {
-  if (nome == null ||
-      descricao == null ||
-      preco == null ||
-      quantidade == null ||
-      imagem == null) {
-    const snackBar = SnackBar(
-      content: Text(
-          'Por favor, preencha todas informações para cadastrar o produto.',
-          style: TextStyle(color: Color.fromRGBO(40, 40, 40, 1))),
-      duration: Duration(seconds: 4),
-      backgroundColor: Color.fromRGBO(233, 213, 2, 1),
-    );
-
-
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  } else if (nome.isEmpty ||
-      descricao.isEmpty ||
-      preco.isNaN ||
-      quantidade.isNaN ||
-      imagem.isEmpty) {
-    const snackBar = SnackBar(
-      content: Text(
-          'Por favor, preencha todas informações para cadastrar o produto.',
-          style: TextStyle(color: Color.fromRGBO(40, 40, 40, 1))),
-      duration: Duration(seconds: 4),
-      backgroundColor: Color.fromRGBO(233, 213, 2, 1),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  } else {
-    await http
-        .post(Uri.parse('http://localhost:3000/listaGamer'),
-            headers: <String, String>{'Content-type': 'application/json'},
-            body: jsonEncode(<String, dynamic>{
-              'nome': nome,
-              'descricao': descricao,
-              'preco': preco,
-              'quantidade': quantidade,
-              'imagem': imagem
-            }))
-        .then((value) => {
-              if (value.statusCode == 201)
-                {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Item cadastrado com sucesso.'),
-                    duration: Duration(seconds: 4),
-                    backgroundColor: Colors.green,
-                  ))
-                }
-              else
-                {throw Error}
-            })
-        .catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Ocorreu um erro ao registrar o produto.'),
-        duration: Duration(seconds: 4),
-        backgroundColor: Colors.red,
-      ));
-    });
-  }
-}
-  
-
-
-
-Future<void> cadastrarProdutoHardware(String? nome, String? descricao,
-    double? preco, int? quantidade, String? imagem, context) async {
-  if (nome == null ||
-      descricao == null ||
-      preco == null ||
-      quantidade == null ||
-      imagem == null) {
-    const snackBar = SnackBar(
-      content: Text(
-          'Por favor, preencha todas informações para cadastrar o produto.'),
-      duration: Duration(seconds: 4),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  } else if (nome.isEmpty ||
-      descricao.isEmpty ||
-      preco.isNaN ||
-      quantidade.isNaN ||
-      imagem.isEmpty) {
-    const snackBar = SnackBar(
-      content: Text(
-          'Por favor, preencha todas informações para cadastrar o produto.',
-          style: TextStyle(color: Color.fromRGBO(40, 40, 40, 1))),
-      duration: Duration(seconds: 4),
-      backgroundColor: Color.fromRGBO(233, 213, 2, 1),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  } else {
-    await http
-        .post(Uri.parse('http://localhost:3000/listaDeHardware'),
-            headers: <String, String>{'Content-type': 'application/json'},
-            body: jsonEncode(<String, dynamic>{
-              'nome': nome,
-              'descricao': descricao,
-              'preco': preco,
-              'quantidade': quantidade,
-              'imagem': imagem
-            }))
-        .then((value) => {
-              if (value.statusCode == 201)
-                {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Item cadastrado com sucesso.'),
-                    duration: Duration(seconds: 4),
-                    backgroundColor: Colors.green,
-                  ))
-                }
-              else
-                {throw Error}
-            })
-        .catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Ocorreu um erro ao registrar o produto.'),
-        duration: Duration(seconds: 4),
-        backgroundColor: Colors.red,
-      ));
-    });
-  }
+Future<void> cadastrarProdutoGamer(String nome, double preco, String imagem,
+    String descricao, String categoria, int quantidade) async {
+  await http.post(Uri.parse('http://localhost:8000/api/produtos'),
+      headers: <String, String>{'Content-type': 'application/json'},
+      body: jsonEncode(<String, dynamic>{
+        'nome': nome,
+        'preco': preco,
+        'imagem': imagem,
+        'descricao': descricao,
+        'categoria': categoria,
+        'quantidade': quantidade
+      }));
 }
 
-Future<void> cadastrarProdutoRede(String? nome, String? descricao,
-    double? preco, int? quantidade, String? imagem, context) async {
-  if (nome == null ||
-      descricao == null ||
-      preco == null ||
-      quantidade == null ||
-      imagem == null) {
-    const snackBar = SnackBar(
-      content: Text(
-          'Por favor, preencha todas informações para cadastrar o produto.',
-          style: TextStyle(color: Color.fromRGBO(40, 40, 40, 1))),
-      duration: Duration(seconds: 4),
-      backgroundColor: Color.fromRGBO(233, 213, 2, 1),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  } else if (nome.isEmpty ||
-      descricao.isEmpty ||
-      preco.isNaN ||
-      quantidade.isNaN ||
-      imagem.isEmpty) {
-    const snackBar = SnackBar(
-      content: Text(
-          'Por favor, preencha todas informações para cadastrar o produto.'),
-      duration: Duration(seconds: 4),
-      backgroundColor: Color.fromRGBO(233, 213, 2, 1),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  } else {
-    await http
-        .post(Uri.parse('http://localhost:3000/listaDeRede'),
-            headers: <String, String>{'Content-type': 'application/json'},
-            body: jsonEncode(<String, dynamic>{
-              'nome': nome,
-              'descricao': descricao,
-              'preco': preco,
-              'quantidade': quantidade,
-              'imagem': imagem
-            }))
-        .then((value) => {
-              if (value.statusCode == 201)
-                {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Item cadastrado com sucesso.'),
-                    duration: Duration(seconds: 4),
-                    backgroundColor: Colors.green,
-                  ))
-                }
-              else
-                {throw Error}
-            })
-        .catchError((error) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Ocorreu um erro ao registrar o produto.'),
-        duration: Duration(seconds: 4),
-        backgroundColor: Colors.red,
-      ));
-    });
-  }
+Future<void> cadastrarProdutoHardware(String nome, String descricao,
+    double preco, int quantidade, String imagem) async {
+  await http.post(Uri.parse('http://localhost:3000/listaDeHardware'),
+      headers: <String, String>{'Content-type': 'application/json'},
+      body: jsonEncode(<String, dynamic>{
+        'nome': nome,
+        'descricao': descricao,
+        'preco': preco,
+        'quantidade': quantidade,
+        'imagem': imagem
+      }));
+}
+
+Future<void> cadastrarProdutoRede(String nome, String descricao, double preco,
+    int quantidade, String imagem) async {
+  await http.post(Uri.parse('http://localhost:3000/listaDeRede'),
+      headers: <String, String>{'Content-type': 'application/json'},
+      body: jsonEncode(<String, dynamic>{
+        'nome': nome,
+        'descricao': descricao,
+        'preco': preco,
+        'quantidade': quantidade,
+        'imagem': imagem
+      }));
 }
 
 Future<List<Produto>> selecionarProdutosGamer() async {
@@ -279,31 +133,11 @@ Future<List<Produto>> selecionarProdutosRede() async {
   return produtos;
 }
 
-Future<void> apagarProdutoGamer(int id) async {
-  await http.delete(
-    Uri.parse('http://localhost:3000/listaGamer/$id'),
-    headers: <String, String>{'Content-type': 'application/json'},
-  );
-}
-
-Future<void> apagarProdutoHardware(int id) async {
-  await http.delete(
-    Uri.parse('http://localhost:3000/listaDeHardware/$id'),
-    headers: <String, String>{'Content-type': 'application/json'},
-  );
-}
-
-Future<void> apagarProdutoRede(int id) async {
-  await http.delete(
-    Uri.parse('http://localhost:3000/listaDeRede/$id'),
-    headers: <String, String>{'Content-type': 'application/json'},
-  );
-}
-
 class ConteudoPagina extends State {
   String? nome;
   String? descricao;
   double? preco;
+  String? categoria;
   int? quantidade;
   String? imagem;
 
@@ -320,7 +154,7 @@ class ConteudoPagina extends State {
         title: const Text("Cadastro de Produtos"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(40.0),
+        padding: EdgeInsets.all(40.0), // Defina o espaço desejado aqui
         child: Center(
           child: Column(
             children: [
@@ -345,6 +179,16 @@ class ConteudoPagina extends State {
                       onChanged: (valor) {
                         setState(() {
                           descricao = valor;
+                        });
+                      },
+                    ),
+                    TextField(
+                      decoration: const InputDecoration(
+                        hintText: 'Digite uma categoria',
+                      ),
+                      onChanged: (valor) {
+                        setState(() {
+                          categoria = valor;
                         });
                       },
                     ),
@@ -382,8 +226,8 @@ class ConteudoPagina extends State {
                     ElevatedButton(
                       onPressed: () {
                         setState(() {
-                          cadastrarProdutoGamer(
-                              nome, descricao, preco, quantidade, imagem, context);
+                          cadastrarProdutoGamer(nome!, preco!, imagem!,
+                              descricao!, categoria!, quantidade!);
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -397,7 +241,7 @@ class ConteudoPagina extends State {
                       onPressed: () {
                         setState(() {
                           cadastrarProdutoRede(
-                              nome, descricao, preco, quantidade, imagem, context);
+                              nome!, descricao!, preco!, quantidade!, imagem!);
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -411,7 +255,7 @@ class ConteudoPagina extends State {
                       onPressed: () {
                         setState(() {
                           cadastrarProdutoHardware(
-                              nome, descricao, preco, quantidade, imagem, context);
+                              nome!, descricao!, preco!, quantidade!, imagem!);
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -430,11 +274,11 @@ class ConteudoPagina extends State {
                   child: Scaffold(
                     appBar: const TabBar(
                       indicator: BoxDecoration(
-                        color: Colors.pink,
+                        color: Colors.pink, // Cor do sublinhado
                         border: Border(
                           bottom: BorderSide(
-                            color: Colors.pink,
-                            width: 2.0,
+                            color: Colors.pink, // Cor do sublinhado
+                            width: 2.0, // Largura do sublinhado
                           ),
                         ),
                       ),
@@ -443,17 +287,15 @@ class ConteudoPagina extends State {
                         Tab(text: 'Rede'),
                         Tab(text: 'Hardware'),
                       ],
-                      labelColor: Colors.white,
-                      unselectedLabelColor: Colors.pink,
+                      labelColor: Colors.white, // Cor do texto das guias ativas
+                      unselectedLabelColor:
+                          Colors.pink, // Cor do texto das guias inativas
                     ),
                     body: TabBarView(
                       children: [
-                        _buildProdutoList(
-                            selecionarProdutosGamer, apagarProdutoGamer),
-                        _buildProdutoList(
-                            selecionarProdutosRede, apagarProdutoRede),
-                        _buildProdutoList(
-                            selecionarProdutosHardware, apagarProdutoHardware),
+                        _buildProdutoList(selecionarProdutosGamer),
+                        _buildProdutoList(selecionarProdutosRede),
+                        _buildProdutoList(selecionarProdutosHardware),
                       ],
                     ),
                   ),
@@ -466,8 +308,7 @@ class ConteudoPagina extends State {
     );
   }
 
-  Widget _buildProdutoList(Future<List<Produto>> Function() fetchProdutos,
-      Future<void> Function(int id) deletarProdutos) {
+  Widget _buildProdutoList(Future<List<Produto>> Function() fetchProdutos) {
     return FutureBuilder(
       future: fetchProdutos(),
       builder: (context, snapshot) {
@@ -481,6 +322,9 @@ class ConteudoPagina extends State {
           itemCount: snapshot.data?.length,
           itemBuilder: (context, index) {
             return GestureDetector(
+              onTap: () {
+                _mostrarDetalhesProduto(context, snapshot.data![index]);
+              },
               child: Card(
                 elevation: 3,
                 margin: const EdgeInsets.all(10),
@@ -493,29 +337,7 @@ class ConteudoPagina extends State {
                     "ID: ${snapshot.data?[index].id}",
                     style: TextStyle(fontSize: 14),
                   ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_forward),
-                        onPressed: () {
-                          setState(() {
-                            _mostrarDetalhesProduto(
-                                context, snapshot.data![index]);
-                          });
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        onPressed: () {
-                          setState(() {
-                            int? id = snapshot.data![index].id;
-                            deletarProdutos(id!);
-                          });
-                        },
-                      ),
-                    ],
-                  ),
+                  trailing: Icon(Icons.arrow_forward),
                 ),
               ),
             );
@@ -537,7 +359,7 @@ class ConteudoPagina extends State {
               Text("ID: ${produto.id}"),
               Text("Nome: ${produto.nome}"),
               Text("Descrição: ${produto.descricao}"),
-              Text("Preço: ${produto.preco?.toStringAsFixed(2) ?? 'N/A'}"),
+              Text("Preço: ${produto.preco?.toStringAsFixed(2)}"),
               Text("Quantidade: ${produto.quantidade}"),
             ],
           ),
