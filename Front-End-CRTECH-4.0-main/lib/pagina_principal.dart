@@ -273,18 +273,27 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
   }
 
   Widget construirProdutosExibidos() {
-    List<Produtos> produtosExibidos;
+    List<Produtos> produtosExibidos = [];
 
-    if (isSelected == 0) {
-      produtosExibidos = MeusProdutos.todosProdutos;
-    } else if (isSelected == 1) {
-      produtosExibidos = MeusProdutos.listaGamer;
-    } else if (isSelected == 2) {
-      produtosExibidos = MeusProdutos.listaDeRede;
-    } else if (isSelected == 3) {
-      produtosExibidos = MeusProdutos.listaDeHardware;
+    if (searchText.isNotEmpty) {
+      produtosExibidos = MeusProdutos.todosProdutos.where((item) {
+        return item.descricao
+            .toLowerCase()
+            .trim()
+            .contains(searchText.toLowerCase().trim());
+      }).toList();
     } else {
-      produtosExibidos = [];
+      if (isSelected == 0) {
+        produtosExibidos = MeusProdutos.todosProdutos;
+      } else if (isSelected == 1) {
+        produtosExibidos = MeusProdutos.listaGamer;
+      } else if (isSelected == 2) {
+        produtosExibidos = MeusProdutos.listaDeRede;
+      } else if (isSelected == 3) {
+        produtosExibidos = MeusProdutos.listaDeHardware;
+      } else {
+        produtosExibidos = [];
+      }
     }
 
     return GridView.builder(
@@ -296,8 +305,8 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
       ),
       itemCount: produtosExibidos.length,
       itemBuilder: (context, index) {
-        final produtos = produtosExibidos[index];
-        return construirCardDeProdutos(produtos, index, produtos.id);
+        final produto = produtosExibidos[index];
+        return construirCardDeProdutos(produto, index, produto.id);
       },
     );
   }
