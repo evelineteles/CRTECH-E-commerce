@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:convert';
-// import 'package:cached_network_image/cached_network_image.dart';
 
 class Produto {
   int? id;
@@ -53,9 +51,8 @@ Future<void> cadastrarProduto(String? nome, double? preco, String? descricao,
       imagem == null) {
     const snackBar = SnackBar(
       content: Text(
-        'Por favor, preencha todas informações para cadastrar o produto.',
-        style: TextStyle(color: Color.fromRGBO(40, 40, 40, 1)),
-      ),
+          'Por favor, preencha todas informações para cadastrar o produto.',
+          style: TextStyle(color: Color.fromRGBO(40, 40, 40, 1))),
       duration: Duration(seconds: 4),
       backgroundColor: Color.fromRGBO(233, 213, 2, 1),
     );
@@ -69,9 +66,8 @@ Future<void> cadastrarProduto(String? nome, double? preco, String? descricao,
       imagem.isEmpty) {
     const snackBar = SnackBar(
       content: Text(
-        'Por favor, preencha todas informações para cadastrar o produto.',
-        style: TextStyle(color: Color.fromRGBO(40, 40, 40, 1)),
-      ),
+          'Por favor, preencha todas informações para cadastrar o produto.',
+          style: TextStyle(color: Color.fromRGBO(40, 40, 40, 1))),
       duration: Duration(seconds: 4),
       backgroundColor: Color.fromRGBO(233, 213, 2, 1),
     );
@@ -111,8 +107,7 @@ Future<void> cadastrarProduto(String? nome, double? preco, String? descricao,
 }
 
 Future<List<Produto>> selecionarProdutosGamer() async {
-  var retorno = await http
-      .get(Uri.parse('http://localhost:8000/api/produtos?categoria=gamer'));
+  var retorno = await http.get(Uri.parse('http://localhost:8000/api/produtos?categoria=gamer'));
   var dados = jsonDecode(retorno.body);
   List<Produto> produtos = [];
   for (var obj in dados) {
@@ -129,8 +124,8 @@ Future<List<Produto>> selecionarProdutosGamer() async {
 }
 
 Future<List<Produto>> selecionarProdutosHardware() async {
-  var retorno = await http
-      .get(Uri.parse('http://localhost:8000/api/produtos?categoria=hardware'));
+  var retorno =
+      await http.get(Uri.parse('http://localhost:8000/api/produtos?categoria=hardware'));
   var dados = jsonDecode(retorno.body);
   List<Produto> produtos = [];
   for (var obj in dados) {
@@ -147,8 +142,7 @@ Future<List<Produto>> selecionarProdutosHardware() async {
 }
 
 Future<List<Produto>> selecionarProdutosRede() async {
-  var retorno = await http
-      .get(Uri.parse('http://localhost:8000/api/produtos?categoria=network'));
+  var retorno = await http.get(Uri.parse('http://localhost:8000/api/produtos?categoria=rede'));
   var dados = jsonDecode(retorno.body);
   List<Produto> produtos = [];
   for (var obj in dados) {
@@ -297,16 +291,15 @@ class ConteudoPagina extends State {
                         });
                       },
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.pink,
-                        fixedSize: const Size(210, 20),
-                      ),
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.pink,
+                          fixedSize: const Size(210, 20)),
                       child: const Text("Cadastrar Produto"),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 80),
               Expanded(
                 child: DefaultTabController(
                   length: 3,
@@ -362,50 +355,51 @@ class ConteudoPagina extends State {
         }
         return ListView.builder(
           itemCount: snapshot.data?.length,
-          itemExtent: 120, // Define a altura de cada item da lista
           itemBuilder: (context, index) {
-            return Card(
-              elevation: 3,
-              margin: const EdgeInsets.all(10),
-              child: ListTile(
-                title: Text(
-                  "Nome: ${snapshot.data?[index].nome}",
-                  style: TextStyle(fontSize: 18),
-                ),
-                subtitle: Text(
-                  "ID: ${snapshot.data?[index].id}",
-                  style: TextStyle(fontSize: 14),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_forward),
-                      onPressed: () {
-                        setState(() {
-                          _mostrarDetalhesProduto(
-                              context, snapshot.data![index]);
-                        });
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        setState(() {
-                          int? id = snapshot.data![index].id;
-                          deletarProdutos(id!);
-                        });
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.edit),
-                      onPressed: () {
-                        setState(() {
-                          _atualizarProduto(context, snapshot.data![index]);
-                        });
-                      },
-                    ),
-                  ],
+            return GestureDetector(
+              child: Card(
+                elevation: 3,
+                margin: const EdgeInsets.all(10),
+                child: ListTile(
+                  title: Text(
+                    "Nome: ${snapshot.data?[index].nome}",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  subtitle: Text(
+                    "ID: ${snapshot.data?[index].id}",
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.arrow_forward),
+                        onPressed: () {
+                          setState(() {
+                            _mostrarDetalhesProduto(
+                                context, snapshot.data![index]);
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete),
+                        onPressed: () {
+                          setState(() {
+                            int? id = snapshot.data![index].id;
+                            deletarProdutos(id!);
+                          });
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          setState(() {
+                            _atualizarProduto(context, snapshot.data![index]);
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
@@ -429,14 +423,6 @@ class ConteudoPagina extends State {
               Text("Descrição: ${produto.descricao}"),
               Text("Preço: ${produto.preco?.toStringAsFixed(2) ?? 'N/A'}"),
               Text("Quantidade: ${produto.quantidade}"),
-              Text("Imagem: ${produto.imagem}"),
-              CachedNetworkImage(
-                imageUrl: produto.imagem!, // URL da imagem
-                placeholder: (context, url) =>
-                    CircularProgressIndicator(), // Indicador de carregamento
-                errorWidget: (context, url, error) =>
-                    Icon(Icons.error), // Ícone de erro, se houver
-              ),
             ],
           ),
           actions: [
@@ -451,82 +437,83 @@ class ConteudoPagina extends State {
       },
     );
   }
+}
 
-  Future<void> _atualizarProduto(BuildContext context, Produto produto) async {
-    String? novoNome;
-    double? novoPreco;
-    String? novaDescricao;
-    String? novaImagem;
-    int? novaQuantidade;
+Future<void> _atualizarProduto(BuildContext context, Produto produto) async {
+  String? novoNome;
+  double? novoPreco;
+  String? novaDescricao;
+  String? novaImagem;
+  int? novaQuantidade;
 
-    await showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Atualizar Produto"),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("ID: ${produto.id}"),
-              TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Digite um novo Nome',
-                ),
-                onChanged: (valor) {
-                  novoNome = valor;
-                },
+  await showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text("Atualizar Produto"),
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("ID: ${produto.id}"),
+            TextField(
+              decoration: const InputDecoration(
+                hintText: 'Digite um novo Nome',
               ),
-              TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Digite um novo Preço',
-                ),
-                onChanged: (valor) {
-                  novoPreco = double.tryParse(valor);
-                },
-              ),
-              TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Digite uma nova Descrição',
-                ),
-                onChanged: (valor) {
-                  novaDescricao = valor;
-                },
-              ),
-              TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Digite uma nova Imagem',
-                ),
-                onChanged: (valor) {
-                  novaImagem = valor;
-                },
-              ),
-              TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Digite uma nova Quantidade',
-                ),
-                onChanged: (valor) {
-                  novaQuantidade = int.tryParse(valor);
-                },
-              ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                if (novoNome != null &&
-                    novoPreco != null &&
-                    novaDescricao != null) {
-                  // Chama o método de atualização aqui
-                  atualizarProduto(produto.id!, novoNome!, novoPreco!,
-                      novaDescricao!, novaImagem!, novaQuantidade!);
-                  Navigator.of(context).pop();
-                }
+              onChanged: (valor) {
+                novoNome = valor;
               },
-              child: const Text("Atualizar"),
+            ),
+            TextField(
+              decoration: const InputDecoration(
+                hintText: 'Digite um novo Preço',
+              ),
+              onChanged: (valor) {
+                novoPreco = double.tryParse(valor);
+              },
+            ),
+            TextField(
+              decoration: const InputDecoration(
+                hintText: 'Digite uma nova Descrição',
+              ),
+              onChanged: (valor) {
+                novaDescricao = valor;
+              },
+            ),
+            TextField(
+              decoration: const InputDecoration(
+                hintText: 'Digite uma nova Imagem',
+              ),
+              onChanged: (valor) {
+                novaImagem = valor;
+              },
+            ),
+            TextField(
+              decoration: const InputDecoration(
+                hintText: 'Digite uma nova Quantidade',
+              ),
+              onChanged: (valor) {
+                novaQuantidade = int.tryParse(valor);
+              },
             ),
           ],
-        );
-      },
-    );
-  }
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (novoNome != null &&
+                  novoPreco != null &&
+                  novaDescricao != null) {
+                // Chama o método de atualização aqui
+                atualizarProduto(produto.id!, novoNome!, novoPreco!,
+                    novaDescricao!, novaImagem!, novaQuantidade!);
+                Navigator.of(context).pop();
+              }
+            },
+            child: const Text("Atualizar"),
+          ),
+        ],
+      );
+    },
+  );
 }
+
