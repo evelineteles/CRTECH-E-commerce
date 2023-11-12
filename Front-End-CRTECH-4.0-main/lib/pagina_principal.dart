@@ -1,5 +1,7 @@
 // ignore_for_file: unused_import, unused_local_variable, must_be_immutable
 
+import 'dart:convert';
+
 import 'package:crtech/appBar.dart';
 import 'package:crtech/barra_inferior.dart';
 import 'package:crtech/detalhes_produto.dart';
@@ -12,10 +14,12 @@ import 'package:crtech/favoritos_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:http/http.dart' as http;
 
 class PaginaPrincipal extends StatefulWidget {
   final List<Produtos> carrinho;
   List favoritos;
+  List listaDeProdutos = MeusProdutos.todosProdutos;
 
   PaginaPrincipal({Key? key, required this.carrinho, required this.favoritos})
       : super(key: key);
@@ -27,12 +31,13 @@ class PaginaPrincipal extends StatefulWidget {
 class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
   int isSelected = 0;
   String searchText = "";
-  List<Produtos> listaDeProdutos = MeusProdutos.todosProdutos;
   List<Produtos> carrinho = [];
 
   @override
   void initState() {
     super.initState();
+    getProdutosByIndex()
+        .then((value) => setState(() => widget.listaDeProdutos = value));
   }
 
   @override
@@ -100,6 +105,51 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
       ),
       backgroundColor: Color.fromARGB(239, 238, 237, 237),
     );
+  }
+
+  Future<List<Produtos>> getProdutosByIndex() async {
+    String url;
+
+    if (isSelected == 1) {
+      url = 'http://localhost:3000/listaGamer';
+    } else if (isSelected == 2) {
+      url = 'http://localhost:3000/listaDeRede';
+    } else if (isSelected == 3) {
+      url = 'http://localhost:3000/listaDeHardware';
+    } else {
+      return MeusProdutos.todosProdutos;
+    }
+
+    try {
+      var retorno = await http.get(Uri.parse(url));
+
+      if (retorno.statusCode == 200) {
+        var dados = await jsonDecode(retorno.body);
+
+        // Lista de produtos
+        List<Produtos> produtos = [];
+
+        // Laço de repetição
+        for (var obj in dados) {
+          Produtos p = Produtos(
+              descricao: obj["descricao"],
+              id: obj["id"],
+              nome: obj["nome"],
+              imagem: obj["imagem"],
+              preco: obj["preco"],
+              quantidade: obj["quantidade"]);
+          produtos.add(p);
+        }
+
+        // Retorno
+        return produtos;
+      } else {
+        throw Exception('Erro ao obter dados do servidor');
+      }
+    } catch (e) {
+      print('Erro: $e');
+      return [];
+    }
   }
 
   Widget construirCardDeProdutos(Produtos produtos, int index, int id) {
@@ -246,6 +296,8 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
       onTap: () {
         setState(() {
           isSelected = index;
+          getProdutosByIndex()
+              .then((value) => setState(() => widget.listaDeProdutos = value));
           searchText = "";
         });
       },
@@ -273,7 +325,7 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
   }
 
   Widget construirProdutosExibidos() {
-    List<Produtos> produtosExibidos = [];
+    List produtosExibidos = [];
 
     if (searchText.isNotEmpty) {
       produtosExibidos = MeusProdutos.todosProdutos.where((item) {
@@ -282,18 +334,6 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
             .trim()
             .contains(searchText.toLowerCase().trim());
       }).toList();
-    } else {
-      if (isSelected == 0) {
-        produtosExibidos = MeusProdutos.todosProdutos;
-      } else if (isSelected == 1) {
-        produtosExibidos = MeusProdutos.listaGamer;
-      } else if (isSelected == 2) {
-        produtosExibidos = MeusProdutos.listaDeRede;
-      } else if (isSelected == 3) {
-        produtosExibidos = MeusProdutos.listaDeHardware;
-      } else {
-        produtosExibidos = [];
-      }
     }
 
     return GridView.builder(
@@ -303,9 +343,9 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
         crossAxisSpacing: 20,
         childAspectRatio: 3 / 3,
       ),
-      itemCount: produtosExibidos.length,
+      itemCount: widget.listaDeProdutos.length,
       itemBuilder: (context, index) {
-        final produto = produtosExibidos[index];
+        final produto = widget.listaDeProdutos[index];
         return construirCardDeProdutos(produto, index, produto.id);
       },
     );
