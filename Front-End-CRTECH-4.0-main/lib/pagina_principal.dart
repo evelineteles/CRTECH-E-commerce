@@ -15,7 +15,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
+
 import 'package:cached_network_image/cached_network_image.dart';
+
+
 
 class PaginaPrincipal extends StatefulWidget {
   final List<Produtos> carrinho;
@@ -120,6 +123,7 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
     String url;
 
     if (isSelected == 1) {
+
       url = 'http://localhost:8000/api/produtos?categoria=gamer';
     } else if (isSelected == 2) {
       url = 'http://localhost:8000/api/produtos?categoria=network';
@@ -141,6 +145,7 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
         // Laço de repetição
         for (var obj in dados) {
           Produtos p = Produtos(
+
             descricao: obj["descricao"] ?? "",
             id: obj["id"] ?? "",
             nome: obj["nome"] ?? "",
@@ -148,6 +153,7 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
             preco: obj["preco"] ?? 0.0,
             quantidade: obj["quantidade"] ?? 0,
           );
+
           produtos.add(p);
         }
 
@@ -347,6 +353,7 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
     List produtosExibidos = [];
 
     if (searchText.isNotEmpty) {
+
       produtosExibidos = widget.listaDeProdutos.where((item) {
         return item.descricao
             .toLowerCase() // Converter para minúsculas
@@ -354,6 +361,7 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
       }).toList();
     } else {
       produtosExibidos = List.from(widget.listaDeProdutos);
+
     }
 
     return GridView.builder(
@@ -363,9 +371,11 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
         crossAxisSpacing: 20,
         childAspectRatio: 3 / 3,
       ),
+
       itemCount: produtosExibidos.length, // Usar a lista filtrada
       itemBuilder: (context, index) {
         final produto = produtosExibidos[index]; // Usar a lista filtrada
+
         return construirCardDeProdutos(produto, index, produto.id);
       },
     );
