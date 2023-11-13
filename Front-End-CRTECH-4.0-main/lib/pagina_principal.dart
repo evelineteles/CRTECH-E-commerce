@@ -12,6 +12,11 @@ import 'package:crtech/favoritos_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+<<<<<<< Updated upstream
+=======
+import 'package:http/http.dart' as http;
+import 'package:cached_network_image/cached_network_image.dart';
+>>>>>>> Stashed changes
 
 class PaginaPrincipal extends StatefulWidget {
   final List<Produtos> carrinho;
@@ -93,6 +98,14 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
         onTabSelected: (index) {
           setState(() {
             isSelected = index;
+            getProdutosByIndex().then(
+              (value) {
+                setState(() {
+                  widget.listaDeProdutos = value;
+                  searchText = "";
+                });
+              },
+            );
           });
         },
         selectedIndex: isSelected,
@@ -102,6 +115,55 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
     );
   }
 
+<<<<<<< Updated upstream
+=======
+  Future<List<Produtos>> getProdutosByIndex() async {
+    String url;
+
+    if (isSelected == 1) {
+      url = 'http://localhost:8000/api/produtos?categoria=gamer';
+    } else if (isSelected == 2) {
+      url = 'http://localhost:8000/api/produtos?categoria=network';
+    } else if (isSelected == 3) {
+      url = 'http://localhost:8000/api/produtos?categoria=hardware';
+    } else {
+      url = 'http://localhost:8000/api/produtos';
+    }
+
+    try {
+      var retorno = await http.get(Uri.parse(url));
+
+      if (retorno.statusCode == 200) {
+        var dados = await jsonDecode(retorno.body);
+
+        // Lista de produtos
+        List<Produtos> produtos = [];
+
+        // Laço de repetição
+        for (var obj in dados) {
+          Produtos p = Produtos(
+            descricao: obj["descricao"] ?? "",
+            id: obj["id"] ?? "",
+            nome: obj["nome"] ?? "",
+            imagem: obj["imagem"] ?? "",
+            preco: obj["preco"] ?? 0.0,
+            quantidade: obj["quantidade"] ?? 0,
+          );
+          produtos.add(p);
+        }
+
+        // Retorno
+        return produtos;
+      } else {
+        throw Exception('Erro ao obter dados do servidor');
+      }
+    } catch (e) {
+      print('Erro: $e');
+      return [];
+    }
+  }
+
+>>>>>>> Stashed changes
   Widget construirCardDeProdutos(Produtos produtos, int index, int id) {
     double _rating = 0.0;
 
@@ -161,16 +223,25 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
                   ),
                 );
               },
-              child: Image.asset(
-                produtos.imagem,
+              child: Container(
+                height: 100,
+                width: double.infinity,
+                child: CachedNetworkImage(
+                  imageUrl: produtos.imagem,
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) {
+                    // Handle error loading image
+                    print('Error loading image: $error');
+                    return Icon(Icons.error);
+                  },
+                ),
               ),
             ),
           ),
           Text(
             produtos.descricao,
             style: TextStyle(
-              fontFamily: GoogleFonts.lato()
-                  .fontFamily, // Use a fonte Lato do Google Fonts
+              fontFamily: GoogleFonts.lato().fontFamily,
               fontSize: 13,
             ),
             textAlign: TextAlign.center,
@@ -275,6 +346,7 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
   Widget construirProdutosExibidos() {
     List<Produtos> produtosExibidos;
 
+<<<<<<< Updated upstream
     if (isSelected == 0) {
       produtosExibidos = MeusProdutos.todosProdutos;
     } else if (isSelected == 1) {
@@ -285,6 +357,16 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
       produtosExibidos = MeusProdutos.listaDeHardware;
     } else {
       produtosExibidos = [];
+=======
+    if (searchText.isNotEmpty) {
+      produtosExibidos = widget.listaDeProdutos.where((item) {
+        return item.descricao
+            .toLowerCase() // Converter para minúsculas
+            .contains(searchText.toLowerCase().trim());
+      }).toList();
+    } else {
+      produtosExibidos = List.from(widget.listaDeProdutos);
+>>>>>>> Stashed changes
     }
 
     return GridView.builder(
@@ -294,10 +376,17 @@ class _EstadoPaginaPrincipal extends State<PaginaPrincipal> {
         crossAxisSpacing: 20,
         childAspectRatio: 3 / 3,
       ),
+<<<<<<< Updated upstream
       itemCount: produtosExibidos.length,
       itemBuilder: (context, index) {
         final produtos = produtosExibidos[index];
         return construirCardDeProdutos(produtos, index, produtos.id);
+=======
+      itemCount: produtosExibidos.length, // Usar a lista filtrada
+      itemBuilder: (context, index) {
+        final produto = produtosExibidos[index]; // Usar a lista filtrada
+        return construirCardDeProdutos(produto, index, produto.id);
+>>>>>>> Stashed changes
       },
     );
   }
