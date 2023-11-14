@@ -22,24 +22,24 @@ Programa TODAS TECH junto à Imã Tech:
 
 # Índice:
 
-* [Sobre](#Sobre)
+[Sobre](#Sobre)
 - Bem-vindo à Loja de Produtos de Informática, um aplicativo Flutter para comprar produtos relacionados à informática de forma fácil e conveniente.
 
-* [Visão Geral](#VisãoGeral)
+[Visão Geral](#VisãoGeral)
 - Este aplicativo foi desenvolvido utilizando o framework Flutter, o que o torna multiplataforma, permitindo a execução em dispositivos Android e iOS.
 - Navegação intuitiva para explorar produtos.
 - Pesquisa de produtos por categoria.
 - Visualização detalhada de produtos com imagens e descrição.
 - Adição de produtos ao carrinho de compras.
 
-* [Como usar](#como-usar):
+[Como usar](#como-usar):
  [Pré-Requisitos](#pre-requisitos):
 - Para executar o aplicativo em sua máquina local, você precisará das seguintes ferramentas instaladas:
 - Dart: [Instruções de instalação](https://dart.dev/get-dart).
 - Flutter: [Instruções de instalação](https://flutter.dev/docs/get-started/install).
 - Node: [Instruções de instalação](https://nodejs.org/en/download).
 
-* [Como Executar](como-executar):
+[Como Executar](como-executar):
 1. Clone este repositório em sua máquina:
 bash
 git clone https://github.com/codigo-rosa/crtech3.0
@@ -56,7 +56,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [Flutter](https://flutter.dev/)
 - [Node](https://nodejs.org/)
 - [PHP](https://php.net/)
-- [Laravel](https[https://laravel.com/)
+- [Laravel](https://laravel.com/)
 - [Oracle](https://www.oracle.com/br/database/)
 - [Insomnia](https://insomnia.rest/).
 
