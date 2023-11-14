@@ -11,10 +11,11 @@
 
 # Tasks Hackadev
 Programa TODAS TECH junto à Imã Tech:
-1ª task: A criação de e-commerce Front-End (Flutter) mobile focado em produtos de tecnologia - Criação de tela - Home do Ecommerce.
-2ª task: Criação de Layout de Tela do Produto;
-3ª task: Consumo de API - objetivo é fazer o consumo de uma API, utilizando o json-server para criar uma API.
-4ª task: Utilização de banco de dados Oracle + Backend trabalhando juntamente com PHP + Lavavel - implementação de um sistema para gerenciar produtos.
+
+- 1ª task: A criação de e-commerce Front-End (Flutter) mobile focado em produtos de tecnologia - Criação de tela - Home do Ecommerce.
+- 2ª task: Criação de Layout de Tela do Produto;
+- 3ª task: Consumo de API - objetivo é fazer o consumo de uma API, utilizando o json-server para criar uma API.
+- 4ª task: Utilização de banco de dados Oracle + Backend trabalhando juntamente com PHP + Lavavel - implementação de um sistema para gerenciar produtos.
 
 # Descrição:
 - Task Hackadev Programa TODAS TECH junto à Imã Tech para a criação de um e-commerce mobile em Flutter, focado em produtos de tecnologia.
