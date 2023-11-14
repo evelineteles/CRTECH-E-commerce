@@ -42,7 +42,7 @@ Programa TODAS TECH junto à Imã Tech:
 [Como Executar](como-executar):
 1. Clone este repositório em sua máquina:
 bash
-git clone https://github.com/codigo-rosa/crtech4.0
+git clone https://github.com/codigo-rosa/crtech-4.0
 2. Entre no diretório:
 cd crtech
 3. Coloque o aplicativo para rodar:
