@@ -58,7 +58,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 - [PHP](https://php.net/)
 - [Laravel](https://laravel.com/)
 - [Oracle](https://www.oracle.com/br/database/)
-- [Insomnia](https://insomnia.rest/).
+- [Insomnia](https://insomnia.rest/)
 
 
 # ✒ Autoras
